@@ -9,7 +9,7 @@
       <div v-for="item in fullName" :key="item" class="toDoTasks">
         <div class="all">
           <div class="tasks">
-          <span>   {{ item.text }} </span>
+          <span> {{ item.text }} </span>
           <div class="icons">
             <span @click="remove(item)" class="item">&nbsp;<img src="../assets/icons/trash-2.svg" alt="removeToDo"></span>
             <span @click="updateFunc(item)" class="item">&nbsp;<img src="../assets/icons/edit.svg" alt="editToDo"></span>
@@ -29,7 +29,7 @@ export default {
     form:{
       text: '',
     },
-    fullName: [],
+    fullName: JSON.parse(localStorage.getItem('todo')) || [],
     update: false,
     currentIndex: null,
   }
@@ -48,6 +48,7 @@ export default {
       else {
        this.update = false
         this.fullName.push(this.form)
+        localStorage.setItem('todo' , JSON.stringify(this.fullName))
         this.form = { text: ''}
       }
     }
@@ -55,6 +56,8 @@ export default {
   remove(item){
    const index = this.fullName.indexOf(item)
    this.fullName.splice(index , 1)
+   localStorage.setItem('todo' , JSON.stringify(this.fullName))
+
   },
   updateFunc(item){
     this.update = true
